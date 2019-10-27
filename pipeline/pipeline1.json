@@ -15,48 +15,38 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"wildcardFileName": "*.json"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings",
+							"quoteAllText": true
+						}
+					},
 					"enableStaging": false
-				}
-			},
-			{
-				"name": "Azure Function1",
-				"type": "AzureFunctionActivity",
-				"dependsOn": [
+				},
+				"inputs": [
 					{
-						"activity": "Copy data1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
+						"referenceName": "Json1",
+						"type": "DatasetReference"
 					}
 				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": []
-			},
-			{
-				"name": "Notebook1",
-				"type": "DatabricksNotebook",
-				"dependsOn": [
+				"outputs": [
 					{
-						"activity": "Azure Function1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
+						"referenceName": "Json2",
+						"type": "DatasetReference"
 					}
-				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": []
+				]
 			}
 		],
 		"annotations": []
